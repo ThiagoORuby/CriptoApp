@@ -3,8 +3,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:projeto_aula1/models/moeda.dart';
+import 'package:projeto_aula1/pages/detalhes_page.dart';
 import 'package:projeto_aula1/repositories/MoedaRepository.dart';
 import 'package:intl/intl.dart';
+import 'detalhes_page.dart';
 
 class MoedasPage extends StatefulWidget {
   const MoedasPage({Key? key}) : super(key: key);
@@ -41,14 +43,21 @@ class _MoedasPageState extends State<MoedasPage> {
     }
   }
 
+  // Função para levar até a tela de detathes de uma moeda
+  mostrarDetalhes(Moeda moeda) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (_) => DetalhesPage(moeda: moeda)));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: appBarDinamica(),
         floatingActionButton: (selecionadas.isNotEmpty)
-            ? FloatingActionButton(
+            ? FloatingActionButton.extended(
+                label: Text('Favoritos'),
                 onPressed: () {},
-                child: Icon(Icons.star),
+                icon: Icon(Icons.star),
               )
             : null,
         body: ListView.separated(
@@ -81,6 +90,8 @@ class _MoedasPageState extends State<MoedasPage> {
                         } else {
                           selecionadas.add(tabela[moeda]);
                         }
+                      } else {
+                        mostrarDetalhes(tabela[moeda]);
                       }
                     });
                   },
