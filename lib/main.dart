@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_aula1/pages/home_page.dart';
 import 'pages/moedas_page.dart';
 
 void main() {
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.indigo,
       ),
-      home: MoedasPage(),
+      home: HomePage(),
       debugShowCheckedModeBanner: false,
     );
   }

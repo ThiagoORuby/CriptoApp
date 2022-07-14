@@ -44,8 +44,8 @@ class _DetalhesPageState extends State<DetalhesPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                child: Image.asset(widget.moeda.icone),
                 height: 50,
+                child: Image.asset(widget.moeda.icone),
               ),
               SizedBox(
                 width: 10,
@@ -68,11 +68,11 @@ class _DetalhesPageState extends State<DetalhesPage> {
                     alignment: Alignment.center,
                     decoration:
                         BoxDecoration(color: Colors.teal.withOpacity(0.05)),
+                    margin: EdgeInsets.only(bottom: 24),
                     child: Text(
                       "$quantidade ${widget.moeda.sigla}",
                       style: TextStyle(fontSize: 20, color: Colors.green),
                     ),
-                    margin: EdgeInsets.only(bottom: 24),
                   ))
               : Container(margin: EdgeInsets.only(bottom: 24)),
           Form(
