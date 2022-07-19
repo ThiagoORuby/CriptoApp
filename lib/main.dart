@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_aula1/pages/home_page.dart';
+import 'package:projeto_aula1/repositories/FavoritosRepository.dart';
+import 'package:provider/provider.dart';
 import 'pages/moedas_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(
+        create: (context) => FavoritosRepository(),
+      )
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {

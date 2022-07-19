@@ -4,8 +4,10 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_aula1/models/moeda.dart';
 import 'package:projeto_aula1/pages/detalhes_page.dart';
+import 'package:projeto_aula1/repositories/FavoritosRepository.dart';
 import 'package:projeto_aula1/repositories/MoedaRepository.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'detalhes_page.dart';
 
 class MoedasPage extends StatefulWidget {
@@ -20,6 +22,7 @@ class _MoedasPageState extends State<MoedasPage> {
   final tabela = MoedaReopository.tabela;
   NumberFormat real = NumberFormat.currency(locale: 'pt_BR', name: 'R\$');
   List<Moeda> selecionadas = [];
+  late FavoritosRepository favoritas;
 
   // App bar dinamica que muda ao selecionar elementos da lista
   // contem botão de deselecionar tudo
@@ -51,12 +54,20 @@ class _MoedasPageState extends State<MoedasPage> {
 
   @override
   Widget build(BuildContext context) {
+    //favoritas = Provider.of<FavoritosRepository>(context);
+    favoritas = context.watch<FavoritosRepository>();
+
     return Scaffold(
         appBar: appBarDinamica(),
         floatingActionButton: (selecionadas.isNotEmpty)
             ? FloatingActionButton.extended(
                 label: Text('Favoritos'),
-                onPressed: () {},
+                onPressed: () {
+                  favoritas.saveAll(selecionadas);
+                  setState(() {
+                    selecionadas = [];
+                  });
+                },
                 icon: Icon(Icons.star),
               )
             : null,
@@ -72,9 +83,15 @@ class _MoedasPageState extends State<MoedasPage> {
                   title: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(tabela[moeda].nome,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 16)),
+                      Row(
+                        children: [
+                          Text(tabela[moeda].nome,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500, fontSize: 16)),
+                          if (favoritas.lista.contains(tabela[moeda]))
+                            Icon(Icons.circle, color: Colors.amber, size: 8)
+                        ],
+                      ),
                       Text(tabela[moeda].sigla,
                           style: TextStyle(color: Colors.grey))
                     ],
